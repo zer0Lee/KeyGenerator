@@ -22,6 +22,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 
 
 public class Main extends Application {
@@ -84,6 +85,10 @@ public class Main extends Application {
       }
     });
     
+    // Add super password
+    Label superPassword = new Label();
+    superPassword.setTextFill(Color.RED);
+    
     gridPane.add(new Label("MAC: "), 0, 0);
     gridPane.add(macAddress, 1, 0);
     gridPane.add(new Label("License Type: "), 0, 1);
@@ -93,6 +98,8 @@ public class Main extends Application {
     gridPane.add(new Label("Save Path: "), 0, 3);
     gridPane.add(fileLocation, 1, 3);
     gridPane.add(fileChooser, 2, 3);
+    gridPane.add(new Label("Super Password: "), 0, 4);
+    gridPane.add(superPassword, 1, 4);
     gridPane.setVgap(5.0);
     gridPane.setHgap(5.0);
     AnchorPane.setLeftAnchor(gridPane, 10.0);
@@ -125,6 +132,7 @@ public class Main extends Application {
               macAddress.getText(), 
               licenseType.getSelectionModel().getSelectedIndex(),
               expireMonth.getValue());
+          superPassword.setText(keyGenerator.getSuperPassword());
           Alert success = new Alert(AlertType.INFORMATION);
           success.setTitle("证书文件生成成功");
           success.setHeaderText("成功生成证书文件！" + System.lineSeparator() + "文件路径：" + fileLocation.getText());

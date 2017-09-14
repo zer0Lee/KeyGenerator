@@ -27,6 +27,7 @@ public class KeyGenerator {
   
   private RSAPrivateKey privateKey;
   private RSAPublicKey publicKey;
+  private String superPassword;
   
   public KeyGenerator() throws NoSuchAlgorithmException {
     initializeRsaKeys();
@@ -40,12 +41,18 @@ public class KeyGenerator {
     return base64Encode(privateKey.getEncoded());
   }
   
+  public String getSuperPassword() {
+    return superPassword;
+  }
+  
   public void generateLicenseFile(
       String licFile, String macAddress, int licType, int expireMonth) throws Exception {
     // Fill in basic license information
     Map<String, String> licenseInformation = new HashMap<>();
     licenseInformation.put("License Type", Integer.toString(licType));
     licenseInformation.put("MAC Hash", md5Hash(macAddress));
+    superPassword = licenseInformation.get("MAC Hash").substring(0, 8);
+    
     if (licType == BASIC){
       licenseInformation.put("Expire Date", "0000-00-00");
     } else {
